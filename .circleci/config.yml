@@ -26,9 +26,25 @@ jobs:
       - node/install-packages:
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
+
+      - restore_cache:
+          keys:
+            - node-modules-{{ checksum "node_modules" }}
+            - package-{{ checksum "package.json "}}
+
       - run:
           name: Install JUnit coverage reporter
           command: yarn add --dev jest-junit
+
+      - save_cache:
+          paths:
+            - "node_modules"
+          key: node-modules-{{ checksum "node_modules" }}
+      - save_cache:
+          paths:
+            - "package.json"
+          key: package-{{ checksum "package.json "}}
+
       - run:
           name: Run tests with JUnit as reporter
           command: npm test --ci --runInBand --reporters=default --reporters=jest-junit
