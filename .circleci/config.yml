@@ -50,6 +50,11 @@ jobs:
             JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - store_test_results:
           path: ./reports/junit/
+          
+      # deploy to surge
+      - run:
+          name: Deploying to Surge
+          command: npx surge build/ https://gsproston-ci-cd-development.surge.sh 
 
 workflows:
   # Below is the definition of your workflow.
