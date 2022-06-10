@@ -45,7 +45,7 @@ jobs:
           paths:
             - "node_modules"
       - save_cache:
-          key: package-{{ checksum "package-lock.json "}}
+          key: package-v1
           paths:
             - "package.json"
             - "package-lock.json"
