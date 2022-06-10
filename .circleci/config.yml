@@ -53,7 +53,7 @@ jobs:
   
       - when:
           condition:
-            equal: [ main, << pipeline.git.branch >> ]
+            equal: [ feature, << pipeline.git.branch >> ]
           steps:
             # build the app
             - run: 
