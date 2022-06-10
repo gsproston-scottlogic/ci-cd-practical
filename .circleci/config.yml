@@ -34,7 +34,7 @@ jobs:
       - restore_cache:
           keys:
             - node-modules-{{ checksum "./node_modules/.package-lock.json" }}
-            - package-{{ checksum "./package-lock.json "}}
+            - package-{{ checksum "./package-lock.json" }}
 
       - run:
           name: Install JUnit coverage reporter
