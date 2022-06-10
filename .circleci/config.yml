@@ -44,6 +44,10 @@ jobs:
           paths:
             - "package.json"
           key: package-{{ checksum "package.json "}}
+          
+      - run:
+          name: List directory
+          command: ls
 
       - run:
           name: Run tests with JUnit as reporter
