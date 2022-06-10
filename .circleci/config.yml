@@ -20,12 +20,7 @@ jobs:
     # CircleCI will report the results back to your VCS provider.
     steps:
       # Checkout the code as the first step.
-      - checkout
-
-      - restore_cache:
-          keys:
-            - v0-package-{{ checksum "./package-lock.json" }}
-            
+      - checkout            
       # Next, the node orb's install-packages step will install the dependencies from a package.json.
       # The orb install-packages step will also automatically cache them for faster future runs.
       - node/install-packages:
@@ -35,13 +30,6 @@ jobs:
       - run:
           name: Install JUnit coverage reporter
           command: yarn add --dev jest-junit
-
-      - save_cache:
-          key: v0-package-{{ checksum "./package-lock.json" }}
-          paths:
-            - "node_modules"
-            - "package.json"
-            - "package-lock.json"
 
       - run:
           name: Run tests with JUnit as reporter
