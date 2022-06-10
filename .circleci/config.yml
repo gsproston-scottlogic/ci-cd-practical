@@ -35,6 +35,10 @@ jobs:
       - run:
           name: Install JUnit coverage reporter
           command: yarn add --dev jest-junit
+          
+      - run:
+          name: List directory
+          command: pwd; ls
 
       - save_cache:
           key: node-modules-{{ checksum "node_modules/.package-lock.json" }}
