@@ -19,16 +19,50 @@ jobs:
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
     steps:
+      - restore_cache:
+          keys:
+            - source-v0-{{ .Branch }}-{{ .Revision }}
+            - source-v0-{{ .Branch }}-
+            - source-v0-
+
       # Checkout the code as the first step.
-      - checkout
+      - checkout      
+
+      - save_cache:
+          key: source-v0-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ".git"
+
       # Next, the node orb's install-packages step will install the dependencies from a package.json.
       # The orb install-packages step will also automatically cache them for faster future runs.
       - node/install-packages:
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
+
       - run:
-          name: Run tests
-          command: npm test
+          name: Install JUnit coverage reporter
+          command: npm i --save-dev jest-junit
+
+      - run:
+          name: Run tests with JUnit as reporter
+          command: npm test --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+      - store_test_results:
+          path: ./reports/junit/
+  
+      - when:
+          condition:
+            equal: [ main, << pipeline.git.branch >> ]
+          steps:
+            # build the app
+            - run: 
+                name: Building app
+                command: npm run build
+            # deploy to surge
+            - run:
+                name: Deploying to Surge
+                command: npx surge build/ https://gsproston-ci-cd-development.surge.sh 
 
 workflows:
   # Below is the definition of your workflow.
