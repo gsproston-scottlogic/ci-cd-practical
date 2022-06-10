@@ -29,8 +29,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - node-modules-{{ checksum "node_modules/.package-lock.json" }}
-            - package-{{ checksum "package-lock.json "}}
+            - node-modules-{{ checksum "./node_modules/.package-lock.json" }}
+            - package-{{ checksum "./package-lock.json "}}
 
       - run:
           name: Install JUnit coverage reporter
@@ -41,7 +41,7 @@ jobs:
           command: pwd; ls
 
       - save_cache:
-          key: node-modules-{{ checksum "node_modules/.package-lock.json" }}
+          key: node-modules-{{ checksum "./node_modules/.package-lock.json" }}
           paths:
             - "node_modules"
       - save_cache:
