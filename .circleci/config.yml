@@ -51,9 +51,10 @@ jobs:
       - store_test_results:
           path: ./reports/junit/
   
+      # only deploy when on the main branch
       - when:
           condition:
-            equal: [ feature, << pipeline.git.branch >> ]
+            equal: [ main, << pipeline.git.branch >> ]
           steps:
             # build the app
             - run: 
